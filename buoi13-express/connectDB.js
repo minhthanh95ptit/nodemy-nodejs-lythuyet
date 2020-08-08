@@ -20,8 +20,7 @@ const AccountModel = mongoose.model('ModelName', account);
 
 AccountModel.create({
     usernmame: 'loc',
-    password: 888,
-    phone: 0372482268
+    password: 888
 }).then(function(data){
     console.log(data);
 })
