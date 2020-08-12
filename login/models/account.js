@@ -16,15 +16,5 @@ AccountSchema = new Schema({
 
 AccountModel = mongoose.model('Account', AccountSchema);
 
-// AccountModel.create({
-//     username : 'kid1412ubqn',
-//     password: 'thanhkid'
-// })
-// .then(
-//     console.log("DONE")
-// )
-// .catch(err => {
-//     console.log(err);
-// })
 
 module.exports = AccountModel;

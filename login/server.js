@@ -2,10 +2,20 @@ const express = require('express')
 const app = express()
 const AccountModel = require('./models/account')
 const bodyParser = require('body-parser')
+const accountRouter = require('./routers/account')
+const path = require('path');
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
+
+app.use('/api/account/', accountRouter)
+
+app.get('/home', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'index.html'))
+})
 
 app.get('/', (req, res) =>{
     res.json("Hello world");
@@ -58,6 +68,9 @@ app.post('/register', (req, res) =>{
         return err;
     })
 })
+
+
+
 
 app.listen(3000, () => {
     console.log('running...');
