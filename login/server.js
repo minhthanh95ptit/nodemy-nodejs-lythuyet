@@ -39,7 +39,7 @@ app.post('/login', (req, res) =>{
                 _id: data._id
             }, 'mk')
             return res.json({
-                message: 'Thành công.',
+                message: 'Thành công..',
                 token: token
             })
         }
