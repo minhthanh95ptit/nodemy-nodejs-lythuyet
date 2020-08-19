@@ -9,12 +9,14 @@ const Schema = mongoose.Schema;
 
 AccountSchema = new Schema({
     username: String,
-    password: String
+    password: String,
+    role: Number
 },{
     collection: 'Account'
 })
 
 AccountModel = mongoose.model('Account', AccountSchema);
+
 
 
 module.exports = AccountModel;

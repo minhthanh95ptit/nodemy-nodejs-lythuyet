@@ -52,19 +52,97 @@ app.post('/login', (req, res) =>{
     })
 })
 
-app.get('/private', (req, res, next) =>{
+function checkLogin(req, res, next){
+        try{
+            var token = req.cookies.token;
+            var check = jwt.verify(token, 'mk')
+            if(check){
+                next()
+            }
+            else{
+                res.json("Vui lòng đăng nhập")
+            }
+        }
+        catch(err){
+            return res.redirect('/login');
+        }
+}
+
+function checkStudent(req, res, next){
     try{
         var token = req.cookies.token;
-        var check = jwt.verify(token, 'mk')
-        if(check){
-            next()
-        }
+        var data = jwt.verify(token, 'mk');
+
+        AccountModel.findOne({
+            _id: data._id
+        })
+        .then(data =>{
+            if(data.role >= 0){
+                next();
+            }
+        })
+        
     }
     catch(err){
         return res.redirect('/login');
     }
-},(req, res, next) =>{
+}
+
+function checkTecher(req, res, next){
+    try{
+        var token = req.cookies.token;
+        var data = jwt.verify(token, 'mk');
+
+        AccountModel.findOne({
+            _id: data._id
+        })
+        .then(data =>{
+            if(data.role >= 1){
+                next();
+            }
+            else{
+                res.json("Tài khoản của bạn chưa được cấp quyền")
+            }
+        })
+        
+    }
+    catch(err){
+        return res.redirect('/login');
+    }
+}
+
+function checkAdmin(req, res, next){
+    try{
+        var token = req.cookies.token;
+        var data = jwt.verify(token, 'mk');
+
+        AccountModel.findOne({
+            _id: data._id
+        })
+        .then(data =>{
+            if(data.role === 2){
+                next();
+            } else{
+                res.json("Tài khoản của bạn chưa được cấp quyền")
+            }
+        })
+        
+    }
+    catch(err){
+        return res.redirect('/login');
+    }
+}
+
+app.get('/student', checkLogin,checkStudent,(req, res, next) =>{
     res.json('Wellcome')
+})
+
+app.get('/teacher', checkLogin,checkTecher,(req, res, next) =>{
+    res.json('Wellcome')
+})
+
+app.get('/admin', checkLogin,checkAdmin,(req, res, next) =>{
+    res.json('Wellcome Admin')
 })
 
 
