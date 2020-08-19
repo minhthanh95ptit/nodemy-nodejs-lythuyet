@@ -44,7 +44,7 @@ app.post('/login', (req, res) =>{
             })
         }
         else{
-            return res.json("Đăng nhập thất bại")
+            return res.json("Đăng nhập thất bại.")
         }
     })
     .catch(err => {
